@@ -12,18 +12,13 @@ A robust RESTful backend application for managing a movie collection. This proje
 
 ### 1. The Dashboard (Desktop)
 *A complete overview allowing users to view the movie library and add new entries.*
-![Dashboard Screenshot](./screenshots/dashboard-desktop.png)
-*(Place your screenshot here: create a folder named 'screenshots' in your project root and add the image)*
+![Dashboard Screenshot](https://github.com/KaranG03/AI-DA/blob/main/Movie%20API%20Dasboard.png?raw=true)
+
 
 ### 2. Adding a Movie (Validation)
 *Demonstration of input validation and error handling.*
-![Add Movie Screenshot](./screenshots/add-movie-validation.png)
-*(Place your screenshot here)*
+![Add Movie Screenshot]()
 
-### 3. Responsive Mobile View
-*The application is fully responsive and works on mobile devices.*
-![Mobile Screenshot](./screenshots/mobile-view.png)
-*(Place your screenshot here)*
 
 ---
 
