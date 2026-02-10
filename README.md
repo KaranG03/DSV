@@ -8,6 +8,18 @@ A robust RESTful backend application for managing a movie collection. This proje
 
 ---
 
+## 🚀 Quick Access
+
+### 🌐 [Live Hosted Application](YOUR_HOSTED_LINK_HERE)
+> **Click the link above** to test the running application directly in your browser.
+> *(Render)*
+
+### 📺 [Demo Video Walkthrough](https://drive.google.com/file/d/1nqWqUEUmMGHpLpUx4yo6MEiSXaUZaOy4/view?usp=sharing)
+> **Watch the video** for a quick tour of the features, code structure, and API testing.
+
+---
+---
+
 ## 📸 Demo Application
 
 ### 1. The Dashboard
