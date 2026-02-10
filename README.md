@@ -10,7 +10,7 @@ A robust RESTful backend application for managing a movie collection. This proje
 
 ## 🚀 Quick Access
 
-### 🌐 [Live Hosted Application](YOUR_HOSTED_LINK_HERE)
+### 🌐 [Live Hosted Application](https://dsv-f3kg.onrender.com/)
 > **Click the link above** to test the running application directly in your browser.
 > *(Render)*
 
