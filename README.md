@@ -10,16 +10,60 @@ A robust RESTful backend application for managing a movie collection. This proje
 
 ## 📸 Demo Application
 
-### 1. The Dashboard (Desktop)
-*A complete overview allowing users to view the movie library and add new entries.*
-![Dashboard Screenshot](https://github.com/KaranG03/AI-DA/blob/main/Movie%20API%20Dasboard.png?raw=true)
+### 1. The Dashboard
+<p align="center">
+  <img src="https://github.com/KaranG03/AI-DA/blob/main/Movie%20API%20Dasboard.png?raw=true" alt="Dashboard Screenshot" width="100%">
+  <br>
+  <em>A complete overview allowing users to view the movie library and add new entries via the interactive UI.</em>
+</p>
 
+---
 
-### 2. Adding a Movie (Validation)
-*Demonstration of input validation and error handling.*
-![Add Movie Screenshot]()
+### 2. Core Operations
 
+#### A. Adding a Movie
+<p align="center">
+  <img src="https://github.com/KaranG03/AI-DA/blob/main/save%20request%20movie%20api%201.png?raw=true" alt="Input Screenshot">
+  <br>
+  <em>Step 1: Sending a <code>POST</code> request with valid movie details.</em>
+</p>
 
+<p align="center">
+  <img src="https://github.com/KaranG03/AI-DA/blob/main/saved%20movie%20response.png?raw=true" alt="Response Screenshot">
+  <br>
+  <em>Step 2: Success Response (201 Created) showing the generated ID.</em>
+</p>
+
+#### B. Retrieving Data
+<p align="center">
+  <img src="https://github.com/KaranG03/AI-DA/blob/main/movie%20get%20by%20id%20.png?raw=true" alt="Get By ID Screenshot">
+  <br>
+  <em>Fetching a specific movie by its unique ID.</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/KaranG03/AI-DA/blob/main/get%20all%20movies.png?raw=true" alt="Get All Screenshot">
+  <br>
+  <em>Fetching the entire list of movies stored in memory.</em>
+</p>
+
+---
+
+### 3. Validation & Error Handling
+
+<p align="center">
+  <img src="https://github.com/KaranG03/AI-DA/blob/main/invalid%20movie%20name%20missing.png?raw=true" alt="Validation Error Screenshot">
+  <br>
+  <em>Case 1: Missing Required Fields (e.g., Title is blank). Returns 400 Bad Request.</em>
+</p>
+
+<p align="center">
+  <strong>Case 2: Historical Constraint Violation</strong>
+  <br>
+  <em>Ensures historical accuracy by rejecting movies set before 1888 (the first motion picture).</em>
+</p>
+
+> **Note:** Similar validation errors occur if the `Description` or `Genre` fields are missing.
 ---
 
 ## 🚀 Features
