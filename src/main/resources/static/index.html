@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Dashboard</title>
+    <style>
+        :root {
+            --primary: #e50914; /* Netflix Red */
+            --bg: #141414;
+            --surface: #1f1f1f;
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --success: #46d369;
+            --error: #e50914;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 { margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1.5px; }
+        p.subtitle { color: var(--text-muted); margin-bottom: 40px; }
+
+        /* MAIN LAYOUT */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .full-width { grid-column: 1 / -1; }
+
+        /* SECTIONS */
+        .card {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .method-tag {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #333;
+            color: #fff;
+            font-weight: bold;
+        }
+        .post { background-color: #f0ad4e; color: #000; }
+        .get { background-color: #0275d8; }
+
+        /* FORMS & INPUTS */
+        .form-group { margin-bottom: 15px; }
+
+        label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem; }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            background: #2b2b2b;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        input:focus { border-color: var(--primary); outline: none; }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+
+        button:hover { background-color: #b20710; }
+        button.secondary { background-color: #333; border: 1px solid #555; }
+        button.secondary:hover { background-color: #444; }
+
+        /* RESULTS AREA */
+        .result-box {
+            margin-top: 15px;
+            background: #000;
+            padding: 15px;
+            border-radius: 4px;
+            min-height: 50px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--success);
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border-left: 4px solid var(--success);
+            display: none; /* Hidden by default */
+        }
+
+        .result-box.error {
+            color: var(--error);
+            border-left-color: var(--error);
+        }
+
+        /* Movie List Items */
+        .movie-item {
+            background: #2b2b2b;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .movie-item span { color: var(--text-muted); font-size: 0.8rem; }
+
+    </style>
+</head>
+<body>
+
+<h1>🎬 Backend API Tester</h1>
+<p class="subtitle">Interactive Dashboard to Test Spring Boot Endpoints</p>
+
+<div class="dashboard">
+
+    <div class="card">
+        <h2>
+            1. Add New Movie
+            <span class="method-tag post">POST</span>
+        </h2>
+        <form id="addMovieForm">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="title" placeholder="e.g. The Matrix" required>
+            </div>
+            <div class="form-group">
+                <label>Genre</label>
+                <input type="text" id="genre" placeholder="e.g. Sci-Fi" required>
+            </div>
+            <div class="form-group">
+                <label>Year</label>
+                <input type="number" id="year" placeholder="e.g. 1999" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="desc" rows="2" placeholder="Brief summary..." required></textarea>
+            </div>
+            <button type="submit">Send Request</button>
+        </form>
+        <div id="postResult" class="result-box"></div>
+    </div>
+
+    <div class="card">
+        <h2>
+            2. Get Movie by ID
+            <span class="method-tag get">GET</span>
+        </h2>
+        <div class="form-group">
+            <label>Enter Movie ID</label>
+            <input type="number" id="searchId" placeholder="e.g. 1">
+        </div>
+        <button class="secondary" onclick="fetchById()">Fetch Movie</button>
+
+        <div id="idResult" class="result-box"></div>
+    </div>
+
+    <div class="card full-width">
+        <h2>
+            3. Get All Movies
+            <span class="method-tag get">GET</span>
+        </h2>
+        <button class="secondary" onclick="fetchAll()">Refresh List</button>
+        <div id="allResult" class="result-box" style="color: #fff;"></div>
+    </div>
+
+</div>
+
+<script>
+        const API_URL = '/api/movies'; // Relative path works if served from Spring Boot
+
+        // --- HELPER TO SHOW RESULTS ---
+        function showResult(elementId, data, isError = false) {
+            const box = document.getElementById(elementId);
+            box.style.display = 'block';
+            box.className = isError ? 'result-box error' : 'result-box';
+
+            if (typeof data === 'object') {
+                box.textContent = JSON.stringify(data, null, 4); // Pretty print JSON
+            } else {
+                box.textContent = data;
+            }
+        }
+
+        // --- 1. POST: ADD MOVIE ---
+        document.getElementById('addMovieForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.textContent = "Sending...";
+
+            const movie = {
+                title: document.getElementById('title').value,
+                genre: document.getElementById('genre').value,
+                releaseYear: parseInt(document.getElementById('year').value),
+                description: document.getElementById('desc').value
+            };
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(movie)
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showResult('postResult', data);
+                    e.target.reset(); // Clear form
+                    // Optional: Auto-refresh list if you want
+                    // fetchAll();
+                } else {
+                    showResult('postResult', data, true);
+                }
+            } catch (err) {
+                showResult('postResult', "Network Error: Is backend running?", true);
+            }
+            btn.textContent = "Send Request";
+        });
+
+        // --- 2. GET: FETCH BY ID ---
+        async function fetchById() {
+            const id = document.getElementById('searchId').value;
+            if (!id) {
+                alert("Please enter an ID");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/${id}`);
+                if (res.status === 404) {
+                    showResult('idResult', "404 Not Found: Movie with ID " + id + " does not exist.", true);
+                    return;
+                }
+                const data = await res.json();
+                showResult('idResult', data);
+            } catch (err) {
+                showResult('idResult', "Error fetching data", true);
+            }
+        }
+
+        // --- 3. GET: FETCH ALL ---
+        async function fetchAll() {
+            const box = document.getElementById('allResult');
+            box.style.display = 'block';
+            box.innerHTML = "Loading...";
+
+            try {
+                const res = await fetch(API_URL);
+                const movies = await res.json();
+
+                if (movies.length === 0) {
+                    box.innerHTML = "Database is empty. Try adding a movie in Step 1.";
+                    return;
+                }
+
+                // Create a nice HTML list instead of raw JSON for "Get All"
+                box.innerHTML = movies.map(m => `
+                    <div class="movie-item">
+                        <div>
+                            <strong>${m.title}</strong>
+                            <br>
+                            <span>ID: ${m.id} | ${m.genre} (${m.releaseYear})</span>
+                        </div>
+                        <div style="font-size:0.8rem; color:#888;">${m.description.substring(0,50)}...</div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                box.textContent = "Error fetching list.";
+                box.className = "result-box error";
+            }
+        }
+    </script>
+</body>
+</html>
